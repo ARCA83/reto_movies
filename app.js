@@ -1,33 +1,36 @@
-import movies from "./data.json" assert { type: "json" };
-
+const btnGetmovies = document. querySelector(".btn-find");
 const container = document.querySelector(".container");
-const inputBuscar = document.querySelector(".input-buscar");
-const btnBuscar = document.querySelector(".btn-buscar");
 
-btnBuscar.onclick = () => {
-  const texto = inputBuscar.value;
+const urlMovies='https://static.rviewer.io/challenges/datasets/dreadful-tomatoes/data.json';
 
-  const moviesFiltradas = movies.entries.filter(
-    (movie) => movie.title.toLowerCase() === texto.toLowerCase()
-  );
-
-  readMovies(moviesFiltradas);
+btnGetmovies .onclick = async function(){
+    // get information from url
+    const answer= await fetch(urlMovies);
+    const data = await answer.json();
+    readMovies(data.entries);
+    // console.log(data.entries);
 };
+function readMovies(movies=data.entries){
+    container.innerHTML="";
+    movies.forEach((movie, index) => {
+        container.innerHTML += `<div class="card">
+            <img src="https://dummyimage.com/808x874.png/ff4444/ffffff"/${
+              index + 1
+            }.png" alt="" />
+            <h4>${movie .title}</h4>
+            <p>
+              ${movie .description}
+            </p>
+            <p>
+              ${movie .programType}
+            </p>
+          </div>
+        `;
+      });
 
-function readMovies(listPeliculas = movies.entries) {
-  container.innerHTML = "";
-  listPeliculas.forEach((movie, index) => {
-    container.innerHTML += `<div class="movie">
-        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${(
-          index + (Math.random() * 10).toFixed(0)
-        ).replace("0", "")}.svg" alt="" />
-        <h4>${movie.title}</h4>
-        <p>
-          ${movie.description}
-        </p>
-      </div>
-    `;
-  });
 }
 
-readMovies();
+
+
+
+
